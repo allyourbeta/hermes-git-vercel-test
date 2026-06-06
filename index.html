@@ -1,10 +1,305 @@
 <!DOCTYPE html>
-<html>
-<head><title>Hermes Test</title></head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashish — Partnerships · Product · Connector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,400italic&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF7F0;
+    --paper-2:#F4ECE0;
+    --ink:#211C16;
+    --ink-soft:#5A5147;
+    --ink-faint:#8B8073;
+    --clay:#BC5A38;
+    --clay-deep:#9E4528;
+    --line:#E4D9C8;
+    --shadow:rgba(60,42,24,.10);
+    --max:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Hanken Grotesk',sans-serif;
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    /* subtle warm grain for atmosphere */
+    background-image:
+      radial-gradient(140% 120% at 12% -5%, rgba(188,90,56,.06), transparent 45%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.01em;line-height:1.08}
+  a{color:inherit}
+
+  /* ---- staggered load ---- */
+  .rise{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* ---- nav ---- */
+  nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(10px);
+    background:rgba(251,247,240,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .mark{font-family:'Fraunces',serif;font-weight:600;font-size:21px;letter-spacing:-.02em}
+  .mark span{color:var(--clay)}
+  .navlinks{display:flex;gap:34px;font-size:15px;font-weight:500}
+  .navlinks a{text-decoration:none;color:var(--ink-soft);transition:color .2s}
+  .navlinks a:hover{color:var(--clay)}
+  @media(max-width:680px){.navlinks{display:none}}
+
+  /* ---- hero ---- */
+  header{padding:96px 0 72px}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin-bottom:26px}
+  .hero-h{font-size:clamp(40px,6.2vw,76px);max-width:14ch}
+  .hero-h em{font-style:italic;color:var(--clay)}
+  .hero-sub{margin-top:30px;max-width:54ch;font-size:20px;color:var(--ink-soft)}
+  .hero-cta{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;
+    font-weight:600;font-size:15px;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+  .btn-primary{background:var(--clay);color:#fff;box-shadow:0 8px 24px rgba(188,90,56,.28)}
+  .btn-primary:hover{background:var(--clay-deep);transform:translateY(-2px);box-shadow:0 12px 30px rgba(188,90,56,.34)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--clay);color:var(--clay);transform:translateY(-2px)}
+
+  /* ---- tailored band (the per-application slot) ---- */
+  .tailored{background:var(--ink);color:var(--paper);border-radius:24px;padding:48px 52px;
+    margin:8px 0 0;position:relative;overflow:hidden}
+  .tailored::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+    border-radius:50%;background:radial-gradient(circle,rgba(188,90,56,.55),transparent 70%)}
+  .tailored .eyebrow{color:#E9A488}
+  .tailored h2{font-size:clamp(26px,3.4vw,38px);max-width:20ch;position:relative}
+  .tailored p{margin-top:18px;max-width:60ch;color:#D9CEBE;position:relative}
+
+  /* ---- section scaffolding ---- */
+  section{padding:78px 0}
+  .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:44px}
+  .sec-num{font-family:'Fraunces',serif;font-size:15px;color:var(--clay);font-weight:600}
+  .sec-title{font-size:clamp(28px,3.6vw,42px)}
+  .sec-note{margin-left:auto;font-size:15px;color:var(--ink-faint);max-width:34ch;text-align:right}
+  @media(max-width:680px){.sec-note{display:none}}
+
+  /* ---- video slot ---- */
+  .video-frame{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;
+    background:linear-gradient(135deg,#2A2118,#3C2D1E);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 20px 50px var(--shadow)}
+  .video-frame::before{content:"";position:absolute;inset:0;opacity:.5;
+    background:radial-gradient(120% 120% at 30% 20%,rgba(188,90,56,.4),transparent 55%)}
+  .play{position:relative;width:78px;height:78px;border-radius:50%;background:rgba(251,247,240,.95);
+    display:flex;align-items:center;justify-content:center;transition:transform .25s}
+  .video-frame:hover .play{transform:scale(1.08)}
+  .play::after{content:"";border-style:solid;border-width:13px 0 13px 22px;
+    border-color:transparent transparent transparent var(--clay);margin-left:5px}
+  .video-cap{position:absolute;left:28px;bottom:24px;color:var(--paper);z-index:2}
+  .video-cap .vt{font-family:'Fraunces',serif;font-size:22px;font-weight:500}
+  .video-cap .vs{font-size:14px;color:#D9CEBE;margin-top:2px}
+
+  /* ---- work grid ---- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:30px 30px 28px;
+    transition:transform .25s,box-shadow .25s,border-color .25s;text-decoration:none;color:inherit;display:block}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px var(--shadow);border-color:#D8C7AE}
+  .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--clay);background:rgba(188,90,56,.10);padding:5px 11px;border-radius:999px;margin-bottom:16px}
+  .tag.alt{color:var(--ink-soft);background:rgba(90,81,71,.10)}
+  .card h3{font-size:23px;margin-bottom:8px}
+  .card p{font-size:15.5px;color:var(--ink-soft);line-height:1.6}
+  .card .more{margin-top:16px;font-size:14px;font-weight:600;color:var(--clay);display:inline-flex;gap:6px;align-items:center}
+
+  /* ---- live window slot ---- */
+  .slot{border:1.5px dashed #D2C2A8;border-radius:20px;padding:54px 40px;text-align:center;background:rgba(244,236,224,.5)}
+  .slot .ico{width:54px;height:54px;border-radius:14px;background:var(--paper);border:1px solid var(--line);
+    margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:24px}
+  .slot h3{font-size:22px;margin-bottom:8px}
+  .slot p{color:var(--ink-faint);font-size:15px;max-width:46ch;margin:0 auto}
+
+  /* ---- contact ---- */
+  footer{background:var(--paper-2);border-top:1px solid var(--line);padding:70px 0 50px;margin-top:40px}
+  .foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
+  .foot-h{font-size:clamp(30px,4.4vw,52px);max-width:16ch}
+  .foot-links{display:flex;gap:26px;font-size:15px;font-weight:600}
+  .foot-links a{text-decoration:none;color:var(--ink-soft);transition:color .2s}
+  .foot-links a:hover{color:var(--clay)}
+  .foot-meta{margin-top:42px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13.5px;color:var(--ink-faint)}
+</style>
+</head>
 <body>
-  <h1>Updated by DeepSeek this time 🚀</h1>
-  <p>Updated on June 5, 2026 at 4:18 PM PDT.</p>
-  <p>Fun fact: The first computer "bug" was literally a moth trapped in a Harvard Mark II relay in 1947 — engineers taped it to the logbook with the note "first actual case of bug being found."</p>
+
+<nav>
+  <div class="wrap">
+    <div class="mark">Ashish<span>.</span></div>
+    <div class="navlinks">
+      <a href="#message">Message</a>
+      <a href="#work">Work</a>
+      <a href="#live">In context</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO (evergreen — about you) ============ -->
+<header>
+  <div class="wrap">
+    <div class="eyebrow rise" style="animation-delay:.05s">Business Development · Product · Partnerships</div>
+    <h1 class="hero-h rise" style="animation-delay:.15s">
+      Great technology only matters when the right people <em>actually adopt it.</em>
+    </h1>
+    <p class="hero-sub rise" style="animation-delay:.3s">
+      I'm Ashish — a partnerships and product generalist who turns complex technology into
+      relationships, revenue, and shipped products. I'm equally comfortable in a customer
+      conversation and a code review — fluent in both worlds, at home with neither extreme.
+    </p>
+    <div class="hero-cta rise" style="animation-delay:.45s">
+      <!-- SLOT: résumé link — point href to your hosted PDF -->
+      <a class="btn btn-primary" href="#" target="_blank">Download résumé ↓</a>
+      <a class="btn btn-ghost" href="#message">Watch my message →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ TAILORED BAND — the per-application slot ============ -->
+<!-- SLOT: swap {{COMPANY}} and this copy for each application. This is the merge field. -->
+<div class="wrap">
+  <div class="tailored rise" style="animation-delay:.55s">
+    <div class="eyebrow">A note for the team at {{COMPANY}}</div>
+    <h2>Why I'm reaching out to {{COMPANY}} specifically — and where I think I can help.</h2>
+    <p>
+      This section is tailored to each role I apply for: a few honest sentences on what drew me
+      to {{COMPANY}}, what I noticed about your product or market, and the specific problem
+      I'd want to own. Recruiters see a hundred generic applications — this is the part that
+      shows I did the homework.
+    </p>
+  </div>
+</div>
+
+<!-- ============ VIDEO — custom message slot ============ -->
+<section id="message">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">A 90-second message</h2>
+      <p class="sec-note">A short, personal video recorded for this specific role — not a generic intro.</p>
+    </div>
+    <!-- SLOT: replace this frame with your YouTube embed:
+         <iframe width="100%" style="aspect-ratio:16/9;border:0;border-radius:20px" 
+           src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+    <div class="video-frame rise" onclick="window.open('#','_blank')">
+      <div class="play"></div>
+      <div class="video-cap">
+        <div class="vt">Hello, {{COMPANY}} team 👋</div>
+        <div class="vs">My personal message for this role · 1:24</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK — portfolio (technical + GTM/collateral) ============ -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Selected work</h2>
+      <p class="sec-note">A mix of things I've shipped and things I've sold — the technical and the go-to-market.</p>
+    </div>
+    <div class="grid">
+
+      <a class="card rise" href="#">
+        <span class="tag">Partnerships</span>
+        <h3>Technical alliances, from pitch to integration</h3>
+        <p>Years building and closing partnerships across Midokura (acq. by Sony), AMD, and
+        enterprise data platforms — owning the relationship from first call through technical
+        integration and joint go-to-market.</p>
+        <span class="more">See the story →</span>
+      </a>
+
+      <a class="card rise" href="#">
+        <span class="tag alt">Product</span>
+        <h3>Apps I designed, built, and shipped</h3>
+        <p>A suite of working products — a chess training platform, a productivity PWA, a spatial
+        organizer — built end to end. Proof I can speak engineering fluently, not just translate it.</p>
+        <span class="more">Explore the apps →</span>
+      </a>
+
+      <a class="card rise" href="#">
+        <span class="tag">Go-to-market</span>
+        <h3>Enablement & partner collateral</h3>
+        <p>Decks, one-pagers, demo narratives, and enablement assets that turned complex technical
+        value into something a sales team — and a customer — could actually act on.</p>
+        <span class="more">View samples →</span>
+      </a>
+
+      <a class="card rise" href="#">
+        <span class="tag alt">Technical</span>
+        <h3>MCP server & agent integrations</h3>
+        <p>Hands-on with the newest agent tooling — built and demoed Model Context Protocol
+        servers and live agent workflows. I stay current because I genuinely enjoy it.</p>
+        <span class="more">See the build →</span>
+      </a>
+
+      <a class="card rise" href="#">
+        <span class="tag">Analytics</span>
+        <h3>Cafe analytics platform</h3>
+        <p>Designed and shipped a full reporting platform — revenue, labor, forecasting —
+        migrating a real business from CSV exports to a live API-driven dashboard.</p>
+        <span class="more">See the work →</span>
+      </a>
+
+      <a class="card rise" href="#">
+        <span class="tag alt">Teaching</span>
+        <h3>Instruction at Berkeley & Stanford</h3>
+        <p>Taught and ran programs at UC Berkeley Extension and Stanford — because the best
+        partnership and product people are, at heart, great explainers.</p>
+        <span class="more">More →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE WINDOW — future iframe / chatbot slot ============ -->
+<section id="live">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">In your context</h2>
+      <p class="sec-note">A live, relevant window — or an interactive Q&amp;A — tuned to this company.</p>
+    </div>
+    <!-- SLOT: drop a live iframe here, or the RAG chatbot / mock-interview widget (Phase 4+) -->
+    <div class="slot rise">
+      <div class="ico">💬</div>
+      <h3>Ask me anything — interactively</h3>
+      <p>Reserved for a tailored embed: a live view relevant to {{COMPANY}}'s product, or an
+      interactive Q&amp;A trained on my background that can answer a recruiter's questions on the spot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <h2 class="foot-h serif">Let's talk about the role.</h2>
+      <div class="foot-links">
+        <!-- SLOT: your real links -->
+        <a href="#">Email</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">Résumé</a>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>Ashish · Oakland, California</span>
+      <span>Built for the {{COMPANY}} application · {{DATE}}</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
-<test push from server -->
